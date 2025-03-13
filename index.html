@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+        }
+        h1 {
+            color: #333;
+        }
+        img {
+            width: 300px;
+            height: auto;
+        }
+        form {
+            margin-top: 20px;
+        }
+        input {
+            padding: 10px;
+            margin-top: 10px;
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        section{
+            width: 50%;
+        }
+        li{
+            list-style: none;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>ULTIMATE TO-DO LIST</h1>
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWRXPin6Jf2RIlFxB5rqMFM0M16M_3HTMCMA&s" alt="To-do List">
+    <form onsubmit="event.preventDefault()">
+        <label>New Task</label>
+        <input placeholder="¿What would you like to do?">
+        <button>Add Task</button>
+    </form>
+    <section>
+        <ol>
+            <li>Task 1 <button>Done</button></li>
+            <li>Task 2 <button>Done</button></li>
+            <li>Task 3 <button>Done</button></li>
+        </ol>
+    </section>
+</body>
+</html
