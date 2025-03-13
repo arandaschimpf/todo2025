@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Tareas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            font-family: "Times New Roman", Times, serif;
+            color: #F1A7C1; 
+        }
+
+        .task-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: #f4f4f4;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+
+        .task-item button {
+            background-color: #104b12;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .task-item button:hover {
+            background-color: #0d6411;
+        }
+
+        img {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            display: block;
+        }
+
+        form {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            margin-right: 10px;
+            width: 200px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #ff0088;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #b3007a;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Gestión de Tareas</h1>
+    
+    <!-- Imagen -->
+    <img src="https://images.pexels.com/photos/7845451/pexels-photo-7845451.jpeg" alt="Taza, escritorio, notas y billetes">
+
+    <!-- Formulario para agregar tarea -->
+    <form id="taskForm">
+        <label for="taskInput">Nueva Tarea: </label>
+        <input type="text" id="taskInput" placeholder="Escribe una tarea">
+        <button type="submit">Agregar </button>
+    </form>
+
+    <!-- Lista de tareas -->
+    <ul class="task-list" id="taskList">
+        <li class="task-item">
+            <span>Tarea de ejemplo</span>
+            <button onclick="completeTask(this)">Completar</button>
+        </li>
+    </ul>
+
+    <script>
+        // Función para completar tarea
+        function completeTask(button) {
+            const taskItem = button.parentElement;
+            taskItem.style.textDecoration = "line-through";
+            button.disabled = true;
+        }
+
+        // Función para agregar una nueva tarea
+        document.getElementById("taskForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const taskInput = document.getElementById("taskInput");
+            const taskText = taskInput.value.trim();
+
+            if (taskText !== "") {
+                const taskList = document.getElementById("taskList");
+                const taskItem = document.createElement("li");
+                taskItem.classList.add("task-item");
+
+                const taskTextNode = document.createElement("span");
+                taskTextNode.textContent = taskText;
+
+                const completeButton = document.createElement("button");
+                completeButton.textContent = "Tarea Completada";
+                completeButton.onclick = function() {
+                    completeTask(completeButton);
+                };
+
+                taskItem.appendChild(taskTextNode);
+                taskItem.appendChild(completeButton);
+
+                taskList.appendChild(taskItem);
+
+                taskInput.value = "";
+            }
+        });
+    </script>
+</body>
+</html>
