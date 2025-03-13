@@ -9,35 +9,143 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #f59e0b;
-            --dark: #1f2937;
-            --light: #f9fafb;
-            --gray: #9ca3af;
-            --danger: #ef4444;
-            --success: #10b981;
+            /* Light Mode Colors - Grays */
+            --light-primary: #64748b;
+            --light-primary-dark: #475569;
+            --light-secondary: #94a3b8;
+            --light-bg: #f1f5f9;
+            --light-card-bg: #ffffff;
+            --light-text: #1e293b;
+            --light-text-secondary: #64748b;
+            --light-border: #e2e8f0;
+            --light-success: #10b981;
+            --light-danger: #ef4444;
+
+            /* Dark Mode Colors - Grays and Blacks */
+            --dark-primary: #9ca3af;
+            --dark-primary-dark: #6b7280;
+            --dark-secondary: #d1d5db;
+            --dark-bg: #0f172a;
+            --dark-card-bg: #1e293b;
+            --dark-text: #f8fafc;
+            --dark-text-secondary: #cbd5e1;
+            --dark-border: #334155;
+            --dark-success: #34d399;
+            --dark-danger: #f87171;
+
+            /* Common Variables */
             --border-radius: 8px;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-light: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-dark: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
         }
 
-        * {
+        /* Default Dark Mode */
+        body {
+            --primary: var(--dark-primary);
+            --primary-dark: var(--dark-primary-dark);
+            --secondary: var(--dark-secondary);
+            --bg: var(--dark-bg);
+            --card-bg: var(--dark-card-bg);
+            --text: var(--dark-text);
+            --text-secondary: var(--dark-text-secondary);
+            --border: var(--dark-border);
+            --success: var(--dark-success);
+            --danger: var(--dark-danger);
+            --shadow: var(--shadow-dark);
+
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            transition: background-color 0.5s ease, color 0.5s ease;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f3f4f6;
-            color: var(--dark);
-            line-height: 1.6;
+        /* Light Mode */
+        body.light-mode {
+            --primary: var(--light-primary);
+            --primary-dark: var(--light-primary-dark);
+            --secondary: var(--light-secondary);
+            --bg: var(--light-bg);
+            --card-bg: var(--light-card-bg);
+            --text: var(--light-text);
+            --text-secondary: var(--light-text-secondary);
+            --border: var(--light-border);
+            --success: var(--light-success);
+            --danger: var(--light-danger);
+            --shadow: var(--shadow-light);
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(125deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            animation: gradientBG 15s ease infinite;
+            background-size: 400% 400%;
+        }
+
+        body.light-mode .bg-animation::before {
+            background: linear-gradient(125deg, #f1f5f9 0%, #e2e8f0 50%, #f1f5f9 100%);
+            animation: gradientBG 15s ease infinite;
+            background-size: 400% 400%;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .star {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            animation: twinkle 5s infinite;
+        }
+
+        body.light-mode .star {
+            background-color: rgba(100, 116, 139, 0.5);
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; }
+            50% { opacity: 0.8; }
+            100% { opacity: 0.2; }
         }
 
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
+            position: relative;
+            z-index: 1;
         }
 
         header {
@@ -48,16 +156,103 @@
             color: white;
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            animation: rotate 10s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
         }
 
         .app-description {
             font-weight: 300;
             opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Theme Switch */
+        .theme-switch-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .theme-switch {
+            display: inline-block;
+            height: 26px;
+            position: relative;
+            width: 50px;
+        }
+
+        .theme-switch input {
+            display: none;
+        }
+
+        .slider {
+            background-color: #1e293b;
+            bottom: 0;
+            cursor: pointer;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            background-color: #f8fafc;
+            bottom: 4px;
+            content: "";
+            height: 18px;
+            left: 4px;
+            position: absolute;
+            transition: .4s;
+            width: 18px;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #94a3b8;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+            background-color: #f8fafc;
+        }
+
+        .slider-icons {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 7px;
+            align-items: center;
+            height: 100%;
+            color: white;
+            font-size: 12px;
         }
 
         .task-image {
@@ -67,19 +262,21 @@
             margin: 20px auto;
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
-            transition: transform 0.3s ease;
-        }
-
-        .task-image:hover {
-            transform: scale(1.02);
+            transition: transform 0.3s ease, opacity 0.5s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            filter: grayscale(100%);
         }
 
         .task-form {
-            background-color: white;
+            background-color: var(--card-bg);
             padding: 25px;
             border-radius: var(--border-radius);
             margin-bottom: 30px;
             box-shadow: var(--shadow);
+            transition: transform 0.3s ease, opacity 0.5s ease, background-color 0.5s ease;
+            opacity: 0;
+            transform: translateY(20px);
         }
 
         .form-group {
@@ -90,23 +287,26 @@
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
-            color: var(--dark);
+            color: var(--text);
+            transition: color 0.5s ease;
         }
 
         input[type="text"] {
             width: 100%;
             padding: 12px 15px;
-            border: 1px solid var(--gray);
+            border: 1px solid var(--border);
             border-radius: var(--border-radius);
             font-size: 1rem;
-            transition: border-color 0.3s;
+            transition: border-color 0.3s, background-color 0.5s ease, color 0.5s ease;
             font-family: 'Poppins', sans-serif;
+            background-color: var(--card-bg);
+            color: var(--text);
         }
 
         input[type="text"]:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+            box-shadow: 0 0 0 3px rgba(156, 163, 175, 0.2);
         }
 
         button {
@@ -125,23 +325,57 @@
             font-size: 1rem;
             display: inline-block;
             margin-top: 10px;
+            position: relative;
+            overflow: hidden;
         }
 
         .btn-add:hover {
             background-color: var(--primary-dark);
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         .btn-add:active {
             transform: translateY(0);
         }
 
+        .btn-add::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+
+        .btn-add:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
+            }
+        }
+
         .task-list {
-            background-color: white;
+            background-color: var(--card-bg);
             border-radius: var(--border-radius);
             overflow: hidden;
             box-shadow: var(--shadow);
+            transition: transform 0.3s ease, opacity 0.5s ease, background-color 0.5s ease;
+            opacity: 0;
+            transform: translateY(20px);
         }
 
         .task-list-header {
@@ -153,15 +387,17 @@
 
         .tasks {
             list-style: none;
+            margin: 0;
+            padding: 0;
         }
 
         .task-item {
             padding: 15px 20px;
-            border-bottom: 1px solid #e5e7eb;
+            border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.3s;
         }
 
         .task-item:last-child {
@@ -169,39 +405,58 @@
         }
 
         .task-item:hover {
-            background-color: #f9fafb;
+            background-color: rgba(156, 163, 175, 0.05);
+            transform: translateX(5px);
         }
 
         .task-text {
             flex-grow: 1;
             margin-right: 15px;
+            transition: color 0.5s ease;
         }
 
         .btn-complete {
-            background-color: white;
+            background-color: transparent;
             color: var(--success);
             border: 1px solid var(--success);
             padding: 8px 12px;
             border-radius: var(--border-radius);
             font-size: 0.9rem;
+            transition: background-color 0.3s, color 0.3s, transform 0.3s;
         }
 
         .btn-complete:hover {
             background-color: var(--success);
             color: white;
+            transform: scale(1.05);
         }
 
         .completed {
             text-decoration: line-through;
-            color: var(--gray);
+            color: var(--text-secondary);
         }
 
         footer {
             text-align: center;
             margin-top: 40px;
             padding: 20px 0;
-            color: var(--gray);
+            color: var(--text-secondary);
             font-size: 0.9rem;
+            transition: color 0.5s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        /* Scroll Animation */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         @media (max-width: 768px) {
@@ -220,16 +475,34 @@
     </style>
 </head>
 <body>
+    <div class="bg-animation">
+        <div class="stars"></div>
+    </div>
+
     <div class="container">
         <header>
             <h1>Mi Gestor de Tareas</h1>
             <p class="app-description">Organiza tu día y aumenta tu productividad</p>
+            
+            <div class="theme-switch-wrapper">
+                <span style="margin-right: 10px; color: white;">🌙</span>
+                <label class="theme-switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" />
+                    <div class="slider">
+                        <div class="slider-icons">
+                            <span>🌙</span>
+                            <span>☀️</span>
+                        </div>
+                    </div>
+                </label>
+                <span style="margin-left: 10px; color: white;">☀️</span>
+            </div>
         </header>
         
         <main>
-            <img src="https://img.freepik.com/free-vector/hand-drawn-flat-design-task-management-illustration_23-2149385440.jpg" alt="Ilustración de gestión de tareas" class="task-image">
+            <img src="https://img.freepik.com/free-vector/hand-drawn-flat-design-task-management-illustration_23-2149385440.jpg" alt="Ilustración de gestión de tareas" class="task-image animate-on-scroll">
             
-            <form class="task-form">
+            <form class="task-form animate-on-scroll">
                 <div class="form-group">
                     <label for="nueva-tarea">Nueva Tarea:</label>
                     <input type="text" id="nueva-tarea" name="nueva-tarea" placeholder="¿Qué necesitas hacer hoy?">
@@ -237,7 +510,7 @@
                 <button type="submit" class="btn-add">Agregar Tarea</button>
             </form>
             
-            <div class="task-list">
+            <div class="task-list animate-on-scroll">
                 <div class="task-list-header">
                     <h2>Mis Tareas Pendientes</h2>
                 </div>
@@ -262,9 +535,97 @@
             </div>
         </main>
 
-        <footer>
+        <footer class="animate-on-scroll">
             <p>Gestor de Tareas - Desarrollado con ❤️ para la clase</p>
         </footer>
     </div>
+
+    <script>
+        // Theme Switcher
+        const toggleSwitch = document.querySelector('#checkbox');
+        const body = document.querySelector('body');
+        
+        // Check for saved theme preference or use system preference
+        const currentTheme = localStorage.getItem('theme') || 
+            (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        
+        if (currentTheme === 'light') {
+            body.classList.add('light-mode');
+            toggleSwitch.checked = true;
+        }
+        
+        // Switch theme function
+        function switchTheme(e) {
+            if (e.target.checked) {
+                body.classList.add('light-mode');
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.remove('light-mode');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        
+        toggleSwitch.addEventListener('change', switchTheme);
+        
+        // Create stars for background
+        function createStars() {
+            const stars = document.querySelector('.stars');
+            const count = 150; // Increased star count for more density
+            
+            for (let i = 0; i < count; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Random position
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                
+                // Random size (slightly larger for better visibility)
+                const size = Math.random() * 3 + 0.5;
+                
+                // Random animation delay
+                const delay = Math.random() * 5;
+                
+                star.style.left = `${x}%`;
+                star.style.top = `${y}%`;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.animationDelay = `${delay}s`;
+                
+                stars.appendChild(star);
+            }
+        }
+        
+        createStars();
+        
+        // Scroll animation
+        function checkScroll() {
+            const elements = document.querySelectorAll('.animate-on-scroll');
+            
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+        
+        // Initial check
+        window.addEventListener('load', () => {
+            checkScroll();
+            
+            // Force all elements to be visible after a delay (for initial view)
+            setTimeout(() => {
+                document.querySelectorAll('.animate-on-scroll').forEach(el => {
+                    el.classList.add('visible');
+                });
+            }, 500);
+        });
+        
+        // Check on scroll
+        window.addEventListener('scroll', checkScroll);
+    </script>
 </body>
 </html>
