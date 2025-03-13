@@ -1,0 +1,43 @@
+<!-- ctrl barrita y te hace cualquier tipo de comentario -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Capibarao</title>
+</head>
+<body>
+    <!-- TITULO -->
+    <h1>Hola, soy Mili</h1>
+    <p>Este es un documento HTML básico.</p>
+    <!-- IMAGEN -->
+    <img src="carp.jpeg" alt="Carpincho tomando mate" width="300" height="200">
+    <!-- FORMULARIO -->
+    <form action="procesar.php" method="post">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre">
+        <button type="submit">Enviar</button>
+    </form>
+    <!-- LISTA DE TAREAS -->
+    <ul>
+        <li>
+            Tarea 1
+            <button onclick="completar(this)">Completar</button>
+        </li>
+        <li>
+            Tarea 2
+            <button onclick="completar(this)">Completar</button>
+        </li>
+        <li>
+            Tarea 3
+            <button onclick="completar(this)">Completar</button>
+        </li>
+    </ul>
+    
+    <script>
+        function completar(boton) {
+            boton.parentElement.style.textDecoration = "line-through";
+            boton.disabled = true;
+        }
+    </script>
+
+</body>
+</html>
