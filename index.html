@@ -34,7 +34,7 @@
             --dark-danger: #f87171;
 
             /* Common Variables */
-            --border-radius: 8px;
+            --border-radius: 10px;
             --shadow-light: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             --shadow-dark: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
         }
@@ -115,6 +115,33 @@
             100% { background-position: 0% 50%; }
         }
 
+        /* Nebula Effect */
+        .nebula {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(156, 163, 175, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 80% 70%, rgba(156, 163, 175, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(156, 163, 175, 0.05) 0%, transparent 30%);
+            opacity: 0.7;
+            animation: nebulaPulse 10s ease-in-out infinite alternate;
+        }
+
+        body.light-mode .nebula {
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(100, 116, 139, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 80% 70%, rgba(100, 116, 139, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(100, 116, 139, 0.05) 0%, transparent 30%);
+        }
+
+        @keyframes nebulaPulse {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(1.2); opacity: 0.7; }
+        }
+
         .stars {
             position: absolute;
             top: 0;
@@ -125,39 +152,92 @@
 
         .star {
             position: absolute;
-            background-color: rgba(255, 255, 255, 0.7);
+            background-color: rgba(255, 255, 255, 0.8);
             border-radius: 50%;
             animation: twinkle 5s infinite;
         }
 
         body.light-mode .star {
-            background-color: rgba(100, 116, 139, 0.5);
+            background-color: rgba(100, 116, 139, 0.6);
         }
 
         @keyframes twinkle {
-            0% { opacity: 0.2; }
-            50% { opacity: 0.8; }
-            100% { opacity: 0.2; }
+            0% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.2); }
+            100% { opacity: 0.2; transform: scale(1); }
+        }
+
+        /* Shooting Stars */
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: white;
+            border-radius: 50%;
+            opacity: 0;
+            filter: blur(1px);
+        }
+
+        .shooting-star::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100px;
+            height: 1px;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0.8), transparent);
+            transform: translateX(-100%);
+        }
+
+        body.light-mode .shooting-star {
+            background-color: #64748b;
+        }
+
+        body.light-mode .shooting-star::before {
+            background: linear-gradient(to right, rgba(100, 116, 139, 0.8), transparent);
+        }
+
+        @keyframes shootingStar {
+            0% {
+                opacity: 0;
+                transform: translate(0, 0);
+            }
+            5% {
+                opacity: 1;
+            }
+            95% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translate(300px, 300px);
+            }
         }
 
         .container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 30px;
             position: relative;
             z-index: 1;
         }
 
         header {
             text-align: center;
-            margin-bottom: 30px;
-            padding: 20px 0;
+            margin-bottom: 40px;
+            padding: 30px 0;
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
             position: relative;
             overflow: hidden;
+            animation: headerPulse 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes headerPulse {
+            0% { box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); }
+            100% { box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5); }
         }
 
         header::before {
@@ -182,6 +262,12 @@
             margin-bottom: 10px;
             position: relative;
             z-index: 1;
+            animation: textGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes textGlow {
+            0% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.3); }
+            100% { text-shadow: 0 0 15px rgba(255, 255, 255, 0.6); }
         }
 
         .app-description {
@@ -189,6 +275,7 @@
             opacity: 0.9;
             position: relative;
             z-index: 1;
+            margin-bottom: 20px;
         }
 
         /* Theme Switch */
@@ -196,16 +283,17 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-top: 15px;
+            margin-top: 20px;
             position: relative;
             z-index: 1;
         }
 
         .theme-switch {
             display: inline-block;
-            height: 26px;
+            height: 28px;
             position: relative;
-            width: 50px;
+            width: 54px;
+            margin: 0 10px;
         }
 
         .theme-switch input {
@@ -222,18 +310,20 @@
             top: 0;
             transition: .4s;
             border-radius: 34px;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
         }
 
         .slider:before {
             background-color: #f8fafc;
             bottom: 4px;
             content: "";
-            height: 18px;
+            height: 20px;
             left: 4px;
             position: absolute;
             transition: .4s;
-            width: 18px;
+            width: 20px;
             border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
         input:checked + .slider {
@@ -241,63 +331,99 @@
         }
 
         input:checked + .slider:before {
-            transform: translateX(24px);
+            transform: translateX(26px);
             background-color: #f8fafc;
         }
 
         .slider-icons {
             display: flex;
             justify-content: space-between;
-            padding: 0 7px;
+            padding: 0 8px;
             align-items: center;
             height: 100%;
             color: white;
             font-size: 12px;
         }
 
+        .theme-icon {
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .theme-icon:hover {
+            transform: scale(1.2);
+        }
+
         .task-image {
             display: block;
             max-width: 100%;
             height: auto;
-            margin: 20px auto;
+            margin: 30px auto;
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
-            transition: transform 0.3s ease, opacity 0.5s ease;
+            transition: transform 0.5s ease, opacity 0.5s ease, filter 0.5s ease;
             opacity: 0;
-            transform: translateY(20px);
-            filter: grayscale(100%);
+            transform: translateY(30px) scale(0.95);
+            filter: grayscale(100%) brightness(0.9);
+        }
+
+        .task-image.visible {
+            transform: translateY(0) scale(1);
+            filter: grayscale(100%) brightness(1);
+        }
+
+        .task-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .task-form {
             background-color: var(--card-bg);
-            padding: 25px;
+            padding: 30px;
             border-radius: var(--border-radius);
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             box-shadow: var(--shadow);
-            transition: transform 0.3s ease, opacity 0.5s ease, background-color 0.5s ease;
+            transition: transform 0.5s ease, opacity 0.5s ease, background-color 0.5s ease, box-shadow 0.3s ease;
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(30px);
+        }
+
+        .task-form.visible {
+            animation: cardFloat 5s ease-in-out infinite alternate;
+        }
+
+        @keyframes cardFloat {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-10px); }
+        }
+
+        .task-form:hover {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-weight: 500;
             color: var(--text);
-            transition: color 0.5s ease;
+            transition: color 0.5s ease, transform 0.3s ease;
+        }
+
+        label:hover {
+            transform: translateX(5px);
         }
 
         input[type="text"] {
             width: 100%;
-            padding: 12px 15px;
-            border: 1px solid var(--border);
+            padding: 15px 20px;
+            border: 2px solid var(--border);
             border-radius: var(--border-radius);
             font-size: 1rem;
-            transition: border-color 0.3s, background-color 0.5s ease, color 0.5s ease;
+            transition: all 0.3s ease;
             font-family: 'Poppins', sans-serif;
             background-color: var(--card-bg);
             color: var(--text);
@@ -307,6 +433,7 @@
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(156, 163, 175, 0.2);
+            transform: scale(1.01);
         }
 
         button {
@@ -320,23 +447,32 @@
             background-color: var(--primary);
             color: white;
             border: none;
-            padding: 12px 20px;
+            padding: 15px 25px;
             border-radius: var(--border-radius);
             font-size: 1rem;
             display: inline-block;
-            margin-top: 10px;
+            margin-top: 15px;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            animation: buttonPulse 2s infinite alternate;
+        }
+
+        @keyframes buttonPulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
         }
 
         .btn-add:hover {
             background-color: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            animation: none;
         }
 
         .btn-add:active {
             transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
         .btn-add::after {
@@ -346,7 +482,7 @@
             left: 50%;
             width: 5px;
             height: 5px;
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.7);
             opacity: 0;
             border-radius: 100%;
             transform: scale(1, 1) translate(-50%);
@@ -360,10 +496,10 @@
         @keyframes ripple {
             0% {
                 transform: scale(0, 0);
-                opacity: 0.5;
+                opacity: 0.7;
             }
             100% {
-                transform: scale(20, 20);
+                transform: scale(30, 30);
                 opacity: 0;
             }
         }
@@ -373,16 +509,44 @@
             border-radius: var(--border-radius);
             overflow: hidden;
             box-shadow: var(--shadow);
-            transition: transform 0.3s ease, opacity 0.5s ease, background-color 0.5s ease;
+            transition: transform 0.5s ease, opacity 0.5s ease, background-color 0.5s ease, box-shadow 0.3s ease;
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(30px);
+        }
+
+        .task-list.visible {
+            animation: cardFloat 5s ease-in-out infinite alternate;
+            animation-delay: 0.2s;
+        }
+
+        .task-list:hover {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
         .task-list-header {
             background-color: var(--primary);
             color: white;
-            padding: 15px 20px;
+            padding: 20px 25px;
             font-size: 1.2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .task-list-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: headerShine 3s infinite;
+        }
+
+        @keyframes headerShine {
+            0% { left: -100%; }
+            20% { left: 100%; }
+            100% { left: 100%; }
         }
 
         .tasks {
@@ -392,12 +556,25 @@
         }
 
         .task-item {
-            padding: 15px 20px;
+            padding: 20px 25px;
             border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: background-color 0.3s, transform 0.3s;
+            transition: all 0.3s ease;
+            transform-origin: left;
+            animation: fadeIn 0.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        .task-item:nth-child(1) { animation-delay: 0.1s; }
+        .task-item:nth-child(2) { animation-delay: 0.2s; }
+        .task-item:nth-child(3) { animation-delay: 0.3s; }
+        .task-item:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
         .task-item:last-child {
@@ -405,30 +582,69 @@
         }
 
         .task-item:hover {
-            background-color: rgba(156, 163, 175, 0.05);
-            transform: translateX(5px);
+            background-color: rgba(156, 163, 175, 0.08);
+            transform: translateX(10px) scale(1.01);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1;
         }
 
         .task-text {
             flex-grow: 1;
-            margin-right: 15px;
-            transition: color 0.5s ease;
+            margin-right: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            padding-left: 10px;
+        }
+
+        .task-text::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 0;
+            background-color: var(--primary);
+            transition: height 0.3s ease;
+        }
+
+        .task-item:hover .task-text::before {
+            height: 80%;
         }
 
         .btn-complete {
             background-color: transparent;
             color: var(--success);
-            border: 1px solid var(--success);
-            padding: 8px 12px;
+            border: 2px solid var(--success);
+            padding: 10px 15px;
             border-radius: var(--border-radius);
             font-size: 0.9rem;
-            transition: background-color 0.3s, color 0.3s, transform 0.3s;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-complete::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(52, 211, 153, 0.2), transparent);
+            transition: all 0.3s ease;
         }
 
         .btn-complete:hover {
             background-color: var(--success);
             color: white;
             transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(52, 211, 153, 0.3);
+        }
+
+        .btn-complete:hover::before {
+            left: 100%;
+            transition: all 0.5s ease;
         }
 
         .completed {
@@ -438,19 +654,28 @@
 
         footer {
             text-align: center;
-            margin-top: 40px;
-            padding: 20px 0;
+            margin-top: 50px;
+            padding: 30px 0;
             color: var(--text-secondary);
             font-size: 0.9rem;
-            transition: color 0.5s ease;
+            transition: all 0.5s ease;
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(30px);
+        }
+
+        footer.visible {
+            animation: footerPulse 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes footerPulse {
+            0% { opacity: 0.7; }
+            100% { opacity: 1; }
         }
 
         /* Scroll Animation */
         .animate-on-scroll {
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(30px);
             transition: opacity 0.8s ease, transform 0.8s ease;
         }
 
@@ -461,22 +686,32 @@
 
         @media (max-width: 768px) {
             .container {
-                padding: 15px;
+                padding: 20px;
             }
             
             h1 {
                 font-size: 2rem;
             }
             
-            .task-form, .task-list {
-                padding: 15px;
+            .task-form {
+                padding: 20px;
+            }
+            
+            .task-item {
+                padding: 15px 20px;
+            }
+            
+            .btn-add, .btn-complete {
+                padding: 12px 18px;
             }
         }
     </style>
 </head>
 <body>
     <div class="bg-animation">
+        <div class="nebula"></div>
         <div class="stars"></div>
+        <div id="shooting-stars-container"></div>
     </div>
 
     <div class="container">
@@ -485,7 +720,7 @@
             <p class="app-description">Organiza tu día y aumenta tu productividad</p>
             
             <div class="theme-switch-wrapper">
-                <span style="margin-right: 10px; color: white;">🌙</span>
+                <span class="theme-icon">🌙</span>
                 <label class="theme-switch" for="checkbox">
                     <input type="checkbox" id="checkbox" />
                     <div class="slider">
@@ -495,7 +730,7 @@
                         </div>
                     </div>
                 </label>
-                <span style="margin-left: 10px; color: white;">☀️</span>
+                <span class="theme-icon">☀️</span>
             </div>
         </header>
         
@@ -570,7 +805,7 @@
         // Create stars for background
         function createStars() {
             const stars = document.querySelector('.stars');
-            const count = 150; // Increased star count for more density
+            const count = 200; // Increased star count for more density
             
             for (let i = 0; i < count; i++) {
                 const star = document.createElement('div');
@@ -596,7 +831,48 @@
             }
         }
         
+        // Create shooting stars
+        function createShootingStars() {
+            const container = document.getElementById('shooting-stars-container');
+            const maxStars = 5;
+            
+            function createStar() {
+                if (container.children.length >= maxStars) return;
+                
+                const star = document.createElement('div');
+                star.classList.add('shooting-star');
+                
+                // Random position and angle
+                const startX = Math.random() * 100;
+                const startY = Math.random() * 100;
+                const angle = Math.random() * 45;
+                
+                star.style.left = `${startX}%`;
+                star.style.top = `${startY}%`;
+                star.style.transform = `rotate(${angle}deg)`;
+                
+                // Animation
+                const duration = Math.random() * 3 + 2; // 2-5 seconds
+                star.style.animation = `shootingStar ${duration}s linear`;
+                
+                container.appendChild(star);
+                
+                // Remove after animation completes
+                setTimeout(() => {
+                    star.remove();
+                    // Create a new one after this one is gone
+                    setTimeout(createStar, Math.random() * 2000);
+                }, duration * 1000);
+            }
+            
+            // Create initial shooting stars with random delays
+            for (let i = 0; i < maxStars; i++) {
+                setTimeout(createStar, Math.random() * 5000);
+            }
+        }
+        
         createStars();
+        createShootingStars();
         
         // Scroll animation
         function checkScroll() {
