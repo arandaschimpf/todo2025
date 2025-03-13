@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Programacion 3</title>
+    </head>
+    <body>
+        <h1> Primera Clase</h1>
+        <img src="https://i1.sndcdn.com/artworks-000025545717-andnx8-t500x500.jpg" alt="HOLA">
+        <form>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+        </form>
+ 
+        <h2>Lista de Tareas</h2>
+        <ul>
+            <li>
+                Hacer ejercicio
+                <button onclick="completar(this)">Completar</button>
+            </li>
+            <li>
+                Hacer las compras
+                <button onclick="completar(this)">Completar</button>
+            </li>
+            <li>
+                Ir a clase
+                <button onclick="completar(this)">Completar</button>
+            </li>
+        </ul>
+        
+        <script>
+            function completar(boton) {
+                boton.parentElement.style.textDecoration = "line-through";
+                boton.disabled = true;
+            }
+        </script>
+    </body>
+</html>
